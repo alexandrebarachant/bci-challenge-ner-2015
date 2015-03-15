@@ -1,0 +1,5 @@
+data/*
+*.*~
+*.pyc
+*.npy
+.DS_Store

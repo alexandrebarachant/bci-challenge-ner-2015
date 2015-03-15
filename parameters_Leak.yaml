@@ -1,0 +1,47 @@
+imports:
+  sklearn.linear_model :
+    - ElasticNet
+  sklearn.preprocessing:
+    - Normalizer
+  classif:
+    - XdawnCovariances
+    - TangentSpace
+    - AddMeta
+    - ElectrodeSelect
+  
+CrossVal:
+  cores: 4
+  folds: 4
+  repetitions: 10
+  path: results.csv
+  comments: 'model-final-leak'
+
+Submission:
+  path: submission_leak.csv
+  cores: 4
+
+MetaPipeline:
+  leak:
+    coeff: 0.8
+  bagging:
+     bag_size: 0.51 # % of subjects to train on in each bagged model. If bag_size==1 then LOSO bagging is performed 
+     models: 500 # ignored for LOSO bagging
+
+pipeline:
+  - XdawnCovariances:
+      nfilter: 5
+      subelec: range(0,56,1)
+  - ElectrodeSelect:
+      nfilters: 5
+      nelec: 23
+      metric: "'riemann'"
+  - TangentSpace:
+      metric: "'logeuclid'"
+      tsupdate: True
+  - Normalizer:
+      norm: '"l1"'
+  - AddMeta:
+  - ElasticNet:
+      l1_ratio: 0.5
+      alpha: 1.5e-4
+      normalize: True
