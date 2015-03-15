@@ -36,8 +36,10 @@ We overcome the first issue by using a channel selection algorithm, and the seco
 **The leak** : By analyzing the time between feedback events in session 5, it was possible to catch the output of the online detection Error. 
 The idea is that when an error is detected, the correction of this error induces a small delay that can be detected with more or less reliability.
 Given that the online Error detection was properly calibrated for the current subject, this analysis gave us two insights :
+
 1. the output of the online error detection for session 5. Of course, there is a higher probability of error when the online classifier detects an error, but it depends on the accuracy of the online classifier.
 This can be used to increase detection accuracy, but only for the session 5.
+
 2. the percentage of error in session 5 i.e. a rough estimate of the class balance for each subjects. This second information is really important, because it can help to optimize the global AUC criterion, by adjusting the prediction to match the error probability of each subjects.
 Of course, this only helps the global AUC performance, and has little effect on the subject performance.
 
@@ -57,6 +59,7 @@ Then, signals are epoched to take only 1.3 second after the feedback event. The 
 #### Feature Extraction
 
 The EEG-based Feature extraction is done in 4 steps :
+
 1. *Xdawn Covariances* : Two sets of 5 XDAWN [1] spatial filters are estimated, one for each class (Error and Correct).
 The grand average evoked potential of each class is then filtered by the corresponding set of spatial filters, and concatenated to each epochs.
 The covariance matrix of each resulting epoch is then used as feature for the next steps. This process is similar to the one described in [2] and [3].
@@ -106,8 +109,8 @@ The validation approach was a 4-fold CV with data randomly split into folds subj
 
 |         Submission         | Public LB | Private LB | Fold-wise CV (std) | Subject-wise CV (std) |
 |----------------------------|-----------|------------|--------------------|-----------------------|
-| No Leak (online compatible)| 0.85083   | 0.84585    | 0.72943 (0.03676)  | 0.76956 (0.00411)     |
-| Leak                       | 0.85145   | 0.87224    | 0.80076 (0.03924)  | 0.78012 (0.00410)     |
+| No Leak (online compatible)| 0.85083   | 0.84585    | 0.7294  (0.037)    | 0.7696 (0.004)        |
+| Leak                       | 0.85145   | 0.87224    | 0.8008  (0.039)    | 0.7801 (0.004)        |
 
 
 CV results are given for 150 models, using the CV procedure described above. Fold-CV refers to the average AUC evaluated on all the predictions of the tests subjects. 
