@@ -54,7 +54,7 @@ for test in [False,True] :
         sigF = bandpass(EEG,[1.0,40.0],freq)
     
     
-        idxFeedBack = find(Trigger)
+        idxFeedBack = np.where(Trigger==1)[0]
     
         for fbkNum,idx in enumerate(idxFeedBack):
             X.append(sigF[idx:idx+epoc_window,:])
